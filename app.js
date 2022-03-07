@@ -46,12 +46,12 @@ function handlerSwitchStamp(e){
 }
 
 function game(Event){
-    //Deshabilitar Botom Switch y habilita reset.
-    btnSwitch.setAttribute ("disabled", "true")
-    btnReset.removeAttribute("disabled")
+    //Deshabilitar boton Switch y habilita boton Reset.
+    btnSwitch.style.display = "none"
+    btnReset.style.display = "initial";
 
     //identifica la casilla clickeada.
-    squarePlayed = d.getElementById(`${Event.target.id}`)
+    squarePlayed = d.getElementById(`${Event.target.id}`);
     
     // Evalua si la casilla ya fue juagada (valida jugada).
     if (gameBoard[squarePlayed.getAttribute("id")] === 0 ){
@@ -68,6 +68,9 @@ function game(Event){
         //Guarda la jugada en el objeto gameBoard
         gameBoard[squarePlayed.getAttribute("id")] = lastPlayer.rol
 
+    
+
+
         //llama funcion que verifica si hay un ganador
         evaluateWinner()
     }
@@ -82,39 +85,26 @@ function evaluateWinner(){
     // Formatea el Id de la casilla Jugada para buscarla en los patrones ganadores.
     const played = squarePlayed.getAttribute("id").slice(6)
 
-    console.log("evaluando ganador");
-    console.log( played); 
+    // console.log("evaluando ganador");
+    // console.log( played); 
 
     //Busca la casilla Jugada en los patrones ganadores.
 
     //verifica si en los patrones ganadores que contienen la casilla jugada todas las jugadas son iguales a X u O.
 
-
     //habemus winner.
     winner = lastPlayer
-    console.log(`Gano ${lastPlayer.player}. ${lastPlayer.rol}`);
+    // console.log(`Gano ${lastPlayer.player}. ${lastPlayer.rol}`);
 
     //funcion que finaliza el juego, resetea gameBoard y el tablerohtml
     endGame()
-
-    
-//   if ( gameBoard.square1 === gameBoard.square2 && gameBoard.square2 === gameBoard.square3
-//     || gameBoard.square4 === gameBoard.square5 && gameBoard.square5 === gameBoard.square6
-//     || gameBoard.square7 === gameBoard.square8 && gameBoard.square8 === gameBoard.square9
-//     || gameBoard.square1 === gameBoard.square4 && gameBoard.square4 === gameBoard.square7
-//     || gameBoard.square2 === gameBoard.square5 && gameBoard.square5 === gameBoard.square8
-//     || gameBoard.square3 === gameBoard.square6 && gameBoard.square6 === gameBoard.square9
-//     || gameBoard.square1 === gameBoard.square5 && gameBoard.square5 === gameBoard.square9
-//     || gameBoard.square3 === gameBoard.square5 && gameBoard.square5 === gameBoard.square7
-//     ){
-//         
-//         
-//     }
 }
 
 //funcion que finaliza el juego, resetea gameBoard y el tablerohtml
 function endGame(){
-
+    //Deshabilitar boton Reset y habilita boton Switch.
+    btnSwitch.style.display = "initial"
+    btnReset.style.display = "none";
 }
 
 

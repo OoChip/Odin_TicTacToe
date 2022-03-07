@@ -51,10 +51,12 @@ h1{
     grid-column: 1 / 4;
     grid-row: 1 / 2;
     justify-self: center;
+    display: none;
 }
 
 #btn-switch{
     justify-self: center;
+    display: block;
 }
 
 #player-a-stamp, #player-b-stamp{
