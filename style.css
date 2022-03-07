@@ -43,20 +43,23 @@ h1{
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     justify-content: space-around;
     align-items: stretch;
-    gap: 1rem;
-    text-align: center;
+    gap: 1rem;    
 }
 
 #btn-reset{
     grid-column: 1 / 4;
     grid-row: 1 / 2;
     justify-self: center;
-    display: none;
+    visibility: hidden;
 }
 
 #btn-switch{
     justify-self: center;
-    display: block;
+}
+
+#vs{
+    justify-self: center;
+    align-self: flex-end;
 }
 
 #player-a-stamp, #player-b-stamp{
