@@ -1,11 +1,7 @@
 const d = document
 
 //Objeto gameBoard para controlar el estado del tablero.
-let gameBoard = {
-    1:0, 2:0, 3:0,
-    4:0, 5:0, 6:0,
-    7:0, 8:0, 9:0
-}
+let gameBoard = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0}
 
 const playerA = {
     player:"A",
@@ -19,7 +15,7 @@ const playerB = {
     stamp: d.getElementById ("player-b-stamp")
 }
 
-let squarePlayed, lastPlayer = playerB, winner= null
+let squarePlayed, lastPlayer = playerB, winner=[]
 
 const btnSwitch = d.getElementById ("btn-switch")
 btnSwitch.addEventListener("click", handlerSwitchStamp)
@@ -81,27 +77,44 @@ function evaluateWinner(){
         [1,5,9], [3,5,7]]   
          
     const played = Number(squarePlayed.id)
-    let acum = 0
-
-        //Busca la casilla Jugada en los patrones ganadores.
-        winnerPatters.forEach(function(element){
-            if(element.includes(played)){           // Filtra los patrones ganadores en los que esta presente la casilla jugada.
-                element.forEach(function(element){  // Evalua cada casilla de las lineas, de cada patron ganador filtrado.
-                    if (gameBoard[element] === 0){  //si alguna de las casilla de la linea en evaluacion no ha sido jugada (vale 0 en el tablero) no hay ganador.
-                        return
-                    }else{                                                        
-                        if (gameBoard[element] === "x" ){ acum++ }else { acum--} // cada x suma 1, cada O resta 1, al final solo si acum vale 4 o -4 singifica que huvo un ganador
-               }
-            })
-        console.log(acum);
-        }
-
-    if(acum === 4 || acum === -4 ){
-        acum = 0
-        endGame()
-    }
-    })
+    const posibleWinnerRows = []
     
+    //Busca la casilla Jugada en los patrones ganadores.
+    winnerPatters.forEach(function(element){
+        if(element.includes(played)){          // Filtra los patrones ganadores en los que esta presente la casilla jugada.
+        posibleWinnerRows.push(element)        // Guarda las lineas donde esta presente la casilla jugada en un array.
+        }
+     })
+
+    posibleWinnerRows.forEach(function(element){  // Toma cada linea filtrada en el paso anterior.
+        let [acum, cuentacero, cuentao, cuentax] = [0,0,0,0]
+
+        element.forEach(function(element){        // evalua cada casilla de cada linea.
+            if (gameBoard[element] === "x"){
+                cuentax++
+                acum++
+            }else if (gameBoard[element] === "o"){ 
+                cuentao++
+                acum--
+            }else if (gameBoard[element] === 0){
+                cuentacero++
+            }
+        })
+
+        //console.log(`acum=${acum} , cuentacero=${cuentacero} , cuentax=${cuentax}, cuentao=${cuentao}`);
+
+        if(acum === 3 || acum === -3 ){                                 // Verfica si fue una linea ganadora.
+            element.forEach(function(element) {                         //pinta la linea ganadora de rojo
+                let cuadroact = d.getElementById(`${element}`)
+                cuadroact.style.background = ("red")
+            })
+
+            setTimeout(function(){
+                alert(`Fin del Juego. Gano ${lastPlayer.rol}`);
+                endGame();
+            }, 600);
+        } 
+    })
 }
 
 //funcion que finaliza el juego, resetea gameBoard y el tablerohtml
@@ -109,15 +122,11 @@ function endGame(){
     //Deshabilitar boton Reset y habilita boton Switch.
     btnSwitch.style.visibility = "visible"
     btnReset.style.visibility = "hidden"
-   alert(`Fin del Juego. Gano ${lastPlayer.rol}`);
+   
+    //Reiniciar valores
+    squares.forEach ( element => element.setAttribute ("src", "./assets/img/empy.svg"))
+    squares.forEach ( element => element.style.background = ("white"))
+    gameBoard = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0}
 
-   //Reiniciar valores
-   squares.forEach ( element => element.setAttribute ("src", "./assets/img/empy.svg"))
-
-   gameBoard = {
-    1:0, 2:0, 3:0,
-    4:0, 5:0, 6:0,
-    7:0, 8:0, 9:0
-}
-
+    
 }
